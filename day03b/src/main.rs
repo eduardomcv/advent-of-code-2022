@@ -41,13 +41,13 @@ fn main() {
         let line = line.unwrap();
 
         if line_counter == 0 {
-            first_line = line.clone();
+            first_line = line;
             line_counter += 1;
         } else if line_counter == 1 {
-            second_line = line.clone();
+            second_line = line;
             line_counter += 1;
         } else if line_counter == 2 {
-            third_line = line.clone();
+            third_line = line;
 
             let found_char = find_common_character(&first_line, &second_line, &third_line);
             let priority_value = get_priority_value(found_char);
