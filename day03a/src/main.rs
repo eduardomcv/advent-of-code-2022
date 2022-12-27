@@ -30,7 +30,7 @@ fn main() {
         let first_compartment = &line_str[..middle];
         let second_compartment = &line_str[middle..];
 
-        let mut found_char: char = 'a';
+        let mut found_char: char = 0 as char;
 
         for char in first_compartment.chars() {
             if second_compartment.contains(char) {
