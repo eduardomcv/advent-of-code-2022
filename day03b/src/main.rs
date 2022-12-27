@@ -16,14 +16,14 @@ fn get_priority_value(c: char) -> u16 {
     }
 }
 
-fn find_common_character(first_line: &str, second_line: &str, third_line: &str) -> char {
+fn find_common_character(first_line: &str, second_line: &str, third_line: &str) -> Option<char> {
     for char in first_line.chars() {
         if second_line.contains(char) && third_line.contains(char) {
-            return char;
+            return Some(char);
         }
     }
 
-    0 as char
+    None
 }
 
 fn main() {
@@ -50,8 +50,14 @@ fn main() {
             third_line = line;
 
             let found_char = find_common_character(&first_line, &second_line, &third_line);
-            let priority_value = get_priority_value(found_char);
-            priority_sum += priority_value as u32;
+
+            match found_char {
+                Some(char) => {
+                    let priority_value = get_priority_value(char);
+                    priority_sum += priority_value as u32;
+                }
+                None => println!("No common character found!"),
+            }
 
             line_counter = 0;
         }
