@@ -16,6 +16,16 @@ fn get_priority_value(c: char) -> u16 {
     }
 }
 
+fn find_common_char(first_compartment: &str, second_compartment: &str) -> Option<char> {
+    for char in first_compartment.chars() {
+        if second_compartment.contains(char) {
+            return Some(char);
+        }
+    }
+
+    None
+}
+
 fn main() {
     let file = File::open("./src/input.txt").expect("Error opening file!");
     let lines = BufReader::new(file).lines();
@@ -30,17 +40,15 @@ fn main() {
         let first_compartment = &line_str[..middle];
         let second_compartment = &line_str[middle..];
 
-        let mut found_char: char = 0 as char;
+        let found_char = find_common_char(&first_compartment, &second_compartment);
 
-        for char in first_compartment.chars() {
-            if second_compartment.contains(char) {
-                found_char = char;
-                break;
+        match found_char {
+            Some(char) => {
+                let priority_value = get_priority_value(char);
+                priority_sum += priority_value as u32;
             }
+            None => println!("No common char found!"),
         }
-
-        let priority_value = get_priority_value(found_char);
-        priority_sum += priority_value as u32;
     }
 
     println!("priority sum: {}", priority_sum);
