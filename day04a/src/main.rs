@@ -16,6 +16,12 @@ fn check_if_contains(room_numbers: &Vec<u32>) -> bool {
     false
 }
 
+fn parse_numbers(line: &str) -> Vec<u32> {
+    line.split(['-', ','])
+        .map(|room| room.parse().unwrap())
+        .collect()
+}
+
 fn main() {
     let file = File::open("./src/input.txt").expect("Error opening file!");
     let lines = BufReader::new(file).lines();
@@ -24,14 +30,9 @@ fn main() {
 
     for line in lines {
         let line = line.unwrap();
-
-        let room_numbers: Vec<u32> = line
-            .split(['-', ','])
-            .map(|room| room.parse().unwrap())
-            .collect();
+        let room_numbers = parse_numbers(&line);
 
         let contains = check_if_contains(&room_numbers);
-
         if contains {
             total += 1;
         }
