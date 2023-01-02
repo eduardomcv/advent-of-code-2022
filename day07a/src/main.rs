@@ -56,11 +56,13 @@ fn update_directory_size(dir_map: &mut HashMap<String, u32>, dir_path: &String, 
     dir_map.insert(dir_path.to_owned(), size);
 }
 
+const MAX_SIZE: u32 = 100000;
+
 fn get_total_size(dir_map: &HashMap<String, u32>) -> u32 {
     let mut total_size: u32 = 0;
 
     for size in dir_map.values() {
-        if size.to_owned() <= 100000 {
+        if size.to_owned() <= MAX_SIZE {
             total_size += size;
         }
     }
