@@ -56,6 +56,18 @@ fn update_directory_size(dir_map: &mut HashMap<String, u32>, dir_path: &String, 
     dir_map.insert(dir_path.to_owned(), size);
 }
 
+fn get_total_size(dir_map: &HashMap<String, u32>) -> u32 {
+    let mut total_size: u32 = 0;
+
+    for size in dir_map.values() {
+        if size.to_owned() <= 100000 {
+            total_size += size;
+        }
+    }
+
+    total_size
+}
+
 fn main() {
     let file = fs_File::open("./src/input.txt").expect("Error opening file.");
     let lines = BufReader::new(file).lines();
@@ -104,13 +116,6 @@ fn main() {
         }
     }
 
-    let mut total_size: u32 = 0;
-
-    for size in directory_size_map.values() {
-        if size.to_owned() <= 100000 {
-            total_size += size;
-        }
-    }
-
+    let total_size = get_total_size(&directory_size_map);
     println!("Total size: {}", total_size);
 }
