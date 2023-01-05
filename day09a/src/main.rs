@@ -25,9 +25,11 @@ impl Position {
     fn new(x: i32, y: i32) -> Self {
         Self { x, y }
     }
+}
 
-    fn clone(&self) -> Position {
-        Position {
+impl Clone for Position {
+    fn clone(&self) -> Self {
+        Self {
             x: self.x,
             y: self.y,
         }
