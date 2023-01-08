@@ -43,6 +43,14 @@ fn get_instruction_cycles(instruction: &Instruction) -> u32 {
     }
 }
 
+fn calculate_signal_strength(cycles: i32, register: i32) -> i32 {
+    cycles * register
+}
+
+fn should_calculate_signal_strength(cycles: i32) -> bool {
+    cycles <= 220 && (cycles - 20) % 40 == 0
+}
+
 fn run(file: File) -> Result<(), Box<dyn Error>> {
     let lines = BufReader::new(file).lines().map(|line| line.unwrap());
 
@@ -56,9 +64,8 @@ fn run(file: File) -> Result<(), Box<dyn Error>> {
 
         for _ in 0..instruction_cycles {
             cycles += 1;
-
-            if cycles <= 220 && (cycles - 20) % 40 == 0 {
-                sum += cycles * x_register;
+            if should_calculate_signal_strength(cycles) {
+                sum += calculate_signal_strength(cycles, x_register);
             }
         }
 
