@@ -61,28 +61,26 @@ fn parse_operation(line: &str) -> Box<dyn Fn(u64) -> u64> {
     }
 }
 
-fn parse_divisor(line: &str) -> u64 {
-    line.split(" ").last().unwrap().parse().unwrap()
-}
-
 fn parse_test<'a>(
     test: &'a str,
     true_clause: &'a str,
     false_clause: &'a str,
-) -> Box<dyn Fn(u64) -> usize> {
-    let test_value: u64 = test.split(" ").last().unwrap().parse().unwrap();
+) -> (Box<dyn Fn(u64) -> usize>, u64) {
+    let divisor: u64 = test.split(" ").last().unwrap().parse().unwrap();
     let true_value: usize = true_clause.split(" ").last().unwrap().parse().unwrap();
     let false_value: usize = false_clause.split(" ").last().unwrap().parse().unwrap();
 
-    Box::new(move |worry| {
-        if worry % test_value == 0 {
-            println!("    Current worry level is divisible by {test_value}.");
+    let test = Box::new(move |worry| {
+        if worry % divisor == 0 {
+            println!("    Current worry level is divisible by {divisor}.");
             true_value
         } else {
-            println!("    Current worry level is not divisible by {test_value}.");
+            println!("    Current worry level is not divisible by {divisor}.");
             false_value
         }
-    })
+    });
+
+    (test, divisor)
 }
 
 fn parse_monkeys(contents: String) -> (Vec<RefCell<Monkey>>, u64) {
@@ -95,8 +93,7 @@ fn parse_monkeys(contents: String) -> (Vec<RefCell<Monkey>>, u64) {
     for chunk in line_chunks {
         let items = parse_items(chunk[1]);
         let operation = parse_operation(chunk[2]);
-        let test = parse_test(chunk[3], chunk[4], chunk[5]);
-        let divisor = parse_divisor(chunk[3]);
+        let (test, divisor) = parse_test(chunk[3], chunk[4], chunk[5]);
 
         modulo *= divisor;
 
