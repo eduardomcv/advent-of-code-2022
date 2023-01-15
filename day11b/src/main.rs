@@ -128,6 +128,7 @@ fn run(contents: String) {
 
                 let operation = &monkey.operation;
                 let worry = operation(item) % modulo;
+                println!("Worry is managed to {worry}. Keep it cool!");
 
                 let test = &monkey.test;
                 let throw_index = test(worry);
