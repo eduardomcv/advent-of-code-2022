@@ -28,8 +28,6 @@ fn parse_operation(line: &str) -> Box<dyn Fn(u64) -> u64> {
     let operation = ops[0];
     let value = ops[1];
 
-    println!("ops: {:?}", (operation, value));
-
     match (operation, value) {
         ("+", "old") => Box::new(|old| {
             let worry = old + old;
